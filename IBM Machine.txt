@@ -1,0 +1,27 @@
+from ibm_watson_machine_learning import APIClient
+from ibm_watson_machine_learning.helpers import DataConnection
+
+# Set up Watson Studio client
+wml_credentials = {
+    "apikey": "YOUR_API_KEY",
+    "url": "https://us-south.ml.cloud.ibm.com",
+}
+
+client = APIClient(wml_credentials)
+
+# Define data connection
+data_conn = DataConnection(
+    data_asset_id="YOUR_DATA_ASSET_ID",
+    location={
+        "bucket": "YOUR_BUCKET_NAME",
+        "file_name": "your_data.csv",
+    },
+    connection={
+        "resource_instance_id": "YOUR_RESOURCE_INSTANCE_ID",
+        "iam_url": "https://iam.ng.bluemix.net/oidc/token",
+    },
+)
+
+# Add data connection to the project
+project = client.project.get("YOUR_PROJECT_ID")
+data_conn = project.data_connections.add(data_conn)
